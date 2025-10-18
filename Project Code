@@ -1,1 +1,19 @@
 #Nothing written yet
+import numpy as np
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+
+df = pd.read_csv('data.csv',  delimiter=';')
+
+#print(df.head(5)) # Not needed just useful for checking
+
+df.loc[df['Target'] == 'Enrolled', 'Target'] = 'Graduate' #Replaces the Enrolled values in the target to graduate
+df.loc[df['Target'] == 'Graduate', 'Target'] = 1
+df.loc[df['Target'] == 'Dropout', 'Target'] = 0
+#print(df.head(17)) # Not needed just useful for checking
+
+X = df.loc[:, df.columns != 'Target']
+y = df['Target']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
